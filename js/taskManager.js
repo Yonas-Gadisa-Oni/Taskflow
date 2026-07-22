@@ -1,6 +1,6 @@
 console.log("taskManager is running");
 
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
 
     const defaultTasks = [
 
@@ -28,37 +28,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     ];
 
+
     let tasks = JSON.parse(localStorage.getItem("tasks")) || defaultTasks;
 
-    // HTML elements
+    const $progressBar = $(".progress-bar");
+    const $progressText = $("#progressText");
+    const $taskContainer = $("#taskContainer");
 
-    const progressBar = document.querySelector(".progress-bar");
+    const $addTaskBtn = $("#addTaskBtn");
+    const $createTaskBtn = $("#createTask");
 
-    const progressText = document.getElementById("progressText");
+    const $taskModal = $("#taskModal");
+    const $closeModal = $("#closeModal");
+    const $cancelModal = $("#cancelModal");
 
-    const taskContainer = document.getElementById("taskContainer");
+    const $searchInput = $("#searchInput");
 
-    const addTaskBtn = document.getElementById("addTaskBtn");
-
-    const createTaskBtn = document.getElementById("createTask");
-
-    const taskModal = document.getElementById("taskModal");
-
-    const closeModal = document.getElementById("closeModal");
-
-    const cancelModal = document.getElementById("cancelModal");
-
-    const searchInput = document.getElementById("searchInput");
-
-    // Dashboard counters
-
-    const totalTasks = document.getElementById("totalTasks");
-
-    const doneTasks = document.getElementById("doneTasks");
-
-    const progressTasks = document.getElementById("progressTasks");
-
-    const urgentTasks = document.getElementById("urgentTasks");
+    const $totalTasks = $("#totalTasks");
+    const $doneTasks = $("#doneTasks");
+    const $progressTasks = $("#progressTasks");
+    const $urgentTasks = $("#urgentTasks");
 
     function saveTasks(){
 
@@ -71,57 +60,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateDashboard(){
 
-        totalTasks.textContent = tasks.length;
+        $totalTasks.text(tasks.length);
 
-        const completed = tasks.filter(task => 
+        const completed = tasks.filter(task =>
             task.completed === true
         ).length;
 
-        doneTasks.textContent = completed;
+        $doneTasks.text(completed);
 
         const inProgress = tasks.filter(task =>
             task.completed === false
         ).length;
 
-        progressTasks.textContent = inProgress;
+        $progressTasks.text(inProgress);
 
         const urgent = tasks.filter(task =>
             task.priority === "Urgent"
         ).length;
 
-        urgentTasks.textContent = urgent;
+        $urgentTasks.text(urgent);
+
     }
-
-
 
     function updateProgress(){
 
-    const total = tasks.length;
+        const total = tasks.length;
 
-    const completed = tasks.filter(task =>
-        task.completed === true
-    ).length;
+        const completed = tasks.filter(task =>
+            task.completed === true
+        ).length;
 
-    let percentage = 0;
+        let percentage = 0;
 
-    if(total > 0){
-        percentage = (completed / total) * 100;
+        if(total > 0){
+
+            percentage = (completed / total) * 100;
+
+        }
+
+        $progressBar.css(
+            "width",
+            percentage + "%"
+        );
+
+        $progressText.text(
+            `${completed}/${total} tasks`
+        );
+
     }
 
-    progressBar.style.width = percentage + "%";
-
-    progressText.textContent =
-    `${completed}/${total} tasks`;
-
-}
-
-    
     function renderTasks(){
 
-        taskContainer.innerHTML = "";
+        $taskContainer.html("");
 
         const searchValue =
-        searchInput.value.toLowerCase();
+        $searchInput.val().toLowerCase();
 
         const filteredTasks = tasks.filter(task => {
 
@@ -152,142 +145,131 @@ document.addEventListener("DOMContentLoaded", function () {
 
         filteredTasks.forEach(task => {
 
-            const taskElement =
-            document.createElement("div");
+            const taskElement = $(
 
-            taskElement.classList.add("task");
+            `
 
-            taskElement.innerHTML = `
+            <div class="task">
 
-            <div class="left">
+                <div class="left">
 
-                <input 
-                    type="checkbox"
-                    ${task.completed ? "checked" : ""}
-                >
-                
-                <div class="info">
+                    <input type="checkbox"
+                    ${task.completed ? "checked" : ""}>
 
-                    <h4>${task.title}</h4>
+                    <div class="info">
 
-                    <div class="tags">
+                        <h4>${task.title}</h4>
 
-                        ${task.tags.map(tag =>
+                        <div class="tags">
 
-                            `<span>${tag}</span>`
+                            ${task.tags.map(tag =>
 
-                        ).join("")}
+                                `<span>${tag}</span>`
+
+                            ).join("")}
+
+                        </div>
 
                     </div>
 
                 </div>
-                
-            </div>
 
-            <div class="right">
+                <div class="right">
 
-                <span class="priority ${task.priority.toLowerCase()}">
+                    <span class="priority ${task.priority.toLowerCase()}">
 
-                    ${task.priority}
+                        ${task.priority}
 
-                </span>
+                    </span>
 
-                <span class="date">
+                    <span class="date">
 
-                    ${task.dueDate}
+                        ${task.dueDate}
 
-                </span>
+                    </span>
 
-                <div class="avatar ${task.avatarColor}">
+                    <div class="avatar ${task.avatarColor}">
 
-                    ${task.avatar}
+                        ${task.avatar}
+
+                    </div>
+
+                    <button class="deleteBtn">
+
+                        🗑
+
+                    </button>
 
                 </div>
 
-                <button class="deleteBtn">
-
-                    🗑
-
-                </button>
-                
             </div>
-            
-            `;
-            
-            // Complete checkbox
 
-            const checkbox =
-            taskElement.querySelector("input");
+            `);
 
-            checkbox.addEventListener("change", function(){
+            // Checkbox change
 
-                task.completed = checkbox.checked;
+            taskElement.find("input").on("change", function(){
+
+                task.completed = $(this).is(":checked");
 
                 saveTasks();
 
                 renderTasks();
 
             });
-            
-            // Delete button
 
-            const deleteBtn =
-            taskElement.querySelector(".deleteBtn");
+            // Delete task
 
-            deleteBtn.addEventListener("click", function(){
+            taskElement.find(".deleteBtn").on("click", function(){
 
-                const confirmDelete =
-                confirm("Delete this task?");
+                if(confirm("Delete this task?")){
 
-                if(confirmDelete){
+                    tasks = tasks.filter(item =>
 
-                    tasks =
-                    tasks.filter(item =>
                         item.id !== task.id
+
                     );
 
                     saveTasks();
-                    
+
                     renderTasks();
 
                 }
 
             });
 
-            taskContainer.appendChild(taskElement);
+            $taskContainer.append(taskElement);
 
         });
 
         updateDashboard();
+
         updateProgress();
-        
+
     }
 
     // Open modal
-    
-    addTaskBtn.addEventListener("click", function(){
 
-        taskModal.style.display = "flex";
+    $addTaskBtn.on("click", function(){
+
+        $taskModal.css(
+            "display",
+            "flex"
+        );
 
     });
 
-    // Create new task
+    // Create task
 
-    createTaskBtn.addEventListener("click", function(){
+    $createTaskBtn.on("click", function(){
 
-        const title =
-        document.getElementById("taskTitle").value;
+        const title = $("#taskTitle").val();
 
-        const project =
-        document.getElementById("taskProject").value;
+        const project = $("#taskProject").val();
 
-        const priority =
-        document.getElementById("taskPriority").value;
+        const priority = $("#taskPriority").val();
 
-
-
-        const date =
-        document.getElementById("taskDate").value;
+        const date = $("#taskDate").val();
 
         if(title === "" || date === ""){
 
@@ -301,13 +283,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             id: Date.now(),
 
-            title:title,
+            title: title,
 
-            tags:[project],
+            tags: [project],
 
-            priority:priority,
+            priority: priority,
 
-            dueDate:new Date(date)
+            dueDate: new Date(date)
             .toDateString(),
 
             completed:false,
@@ -324,38 +306,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
         renderTasks();
 
-        taskModal.style.display = "none";
+        $taskModal.css(
+            "display",
+            "none"
+        );
 
-        document.getElementById("taskTitle").value = "";
+        $("#taskTitle").val("");
 
-        document.getElementById("taskDate").value = "";
+        $("#taskDate").val("");
 
     });
 
     // Close modal
 
-    closeModal.addEventListener("click", function(){
+    $closeModal.on("click", function(){
 
-        taskModal.style.display = "none";
+        $taskModal.css(
+            "display",
+            "none"
+        );
+
+    });
+
+    $cancelModal.on("click", function(){
+
+        $taskModal.css(
+            "display",
+            "none"
+        );
 
     });
 
-    cancelModal.addEventListener("click", function(){
-
-        taskModal.style.display = "none";
-
-    });
-    
     // Search
 
-    searchInput.addEventListener("input", function(){
+    $searchInput.on("input", function(){
 
         renderTasks();
 
     });
 
     renderTasks();
-
-
 
 });
