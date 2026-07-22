@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+</head>
+<body>
+
+    <div class="main_div">
+        <div class="left_nav" id="sidebar">
+            <div class="nav_top">
+                <img id="menu_icon" src="./assets/icons/list.png" alt="">
+                <span><h4 class="text">TaskFlow</4></span>
+
+                <button class="nav_top_icon" id="collapse_btn">
+                    <img class="nav_icon" src="./assets/icons/angle-right.png" alt="">
+                </button>
+            </div>
+           
+        <div class="middle_nav">
+            <button class="middle_button"> 
+                <img class="icon_color" src="./assets/icons/Dashboard.png" alt="">
+                <span class="text">Dashboard</span>
+            </button>
+
+            <button class="middle_button">
+                <img class="icon_color" src="./assets/icons/inbox.png" alt="">
+                <span class="text">inbox</span>
+            </button>
+
+            <button class="middle_button">
+                <img class="icon_color" src="./assets/icons/My Tasks.png" alt="">
+                <span class="text">MyTask</span>
+            </button>
+            
+            <button class="middle_button">
+                <img class="icon_color" src="./assets/icons/calendar.png" alt="">
+                <span class="text">calendar</span>
+            </button>
+
+            <button class="middle_button">
+                <img class="icon_color" src="./assets/icons/Reports.png" alt="">
+                <span class="text">Reports</span>
+            </button>
+        </div>
+
+        <div class="middle_nav_link middle_nav " id="sidebar1" >
+            <h5 class="text" >PROJECTS</h5>
+
+            <div class="list">
+                <p class="text">🟣 Product</p>
+            </div>
+                
+            <div class="list">
+                <p class="text">🟢 Engineering</p>
+            </div>
+
+            <div class="list">
+                <p class="text">🟡 Research</p>
+            </div>
+                
+            <div class="list">
+                <p class="text">🔵 Strategy</p>
+            </div>
+
+            <div class="list">
+                <p class="text">🔴 Legal</p>
+            </div>
+
+        </div>
+
+        <div class="buttom"> 
+            <button class="setting">
+                <img class="icon_color" src="./assets/icons/settings.png" alt="">
+                <span class="text">settings</span>
+            </button>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="top_nav">
+            <div class="left">
+                <input class="Search" id="searchInput" type="text" placeholder="Search tasks...">
+            </div>
+
+            <div class="right">
+                <button class="right">
+                    <img src="./assets/icons/notification.png" alt="">
+                </button>
+                <button class="person">
+                    <img class="person" src="./assets/icons/person.jpg" alt="">
+                </button>
+            </div>
+        </div>
+        
+        <div class="main_middle_nav">
+            <div class="main_middle_left">
+                <h3>My Tasks</h3>
+                <p style="margin-top: 8px;">Thursday July 17 - 6 remaining</p>
+            </div>
+
+            <div class="main_middle_right">
+                <button class="add_btn" id="addTaskBtn">
+                    <img class="plus" style="height: 13px; width: 13px;" src="./assets/icons/plus (1).png" alt="">
+                    <span style="font-weight: bold;">TaskAdd</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="main_tracker">
+            <div class="Total">
+                <p style="margin-left: 15px; color: #999999; font-size: 15px;">TOTAL</p>
+                <p id="totalTasks" style="margin-left: 15px; font-weight: bold; font-size: 40px;">0</p>
+                <p style="margin-left: 15px; color: cornflowerblue;">All Task</p>
+            </div>
+
+            <div class="Done">
+                <P style="margin-left: 15px; color: #999999; font-size: 15px;">DONE</P>
+                <p id="doneTasks" style="margin-left: 15px; font-weight: bold; font-size: 40px;">0</p>
+                <p style="margin-left: 15px; color: green;">25% Complete</p>
+            </div>
+
+            <div class="progress">
+                <P style="margin-left: 15px; color: #999999; font-size: 15px;"> IN PROGRESS</P>
+                <p id="progressTasks" style="margin-left: 15px; font-weight: bold; font-size: 40px;">0</p>
+                <p style="margin-left: 15px; color: orange;">Active now</p>
+            </div>
+
+            <div class="urgent">
+                <P style="margin-left: 15px; color: #999999; font-size: 15px;">URGENT</P>
+                <p id="urgentTasks" style="margin-left: 15px; font-weight: bold; font-size: 40px;">0</p>
+                <p style="margin-left: 15px; color: red;">Need attention</p>
+            </div>
+        </div>
+
+        <div class="Progress">
+            <div class="pro_tracker">
+                <p style="margin-left: 10px;">Overall Progress</p>
+                <p style="margin-right: 10px;">2/8 tasks</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+
+            <div class="list_ul">
+                <li>Product</li>
+                <li>Engineering</li>
+                <li>Research</li>
+                <li>Strategy</li>
+                <li>Legal</li>
+            </div>
+        </div>
+
+        <div class="Progress_list">
+            <div class="list_btn">
+                <button class="btn">
+                    All
+                </button>
+
+                <button class="btn" >
+                    To Do
+                </button>
+
+                <button class="btn">
+                    In Progress
+                </button>
+            
+                <button class="btn">
+                    Done
+                </button>
+            </div>
+
+            <div class="filter_btn1">
+                <button class="filter_btn">
+                    <img src="./assets/icons/filter.png" alt="">
+                    <span class="filter">Filter</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="title">
+            <p style="color: #999999; font-size: 13px;">
+                TASK
+            </p>
+
+            <div class="title_right">
+                <p style="color: #999999; font-size: 13px;">
+                    PRIORITY
+                </p>
+
+                <p style="color: #999999; font-size: 13px;">
+                    DUE
+                </p>
+            </div>
+        </div>
+
+        <div class="container" id="taskContainer">
+
+        </div>
+    </main>
+    </div>
+
+    <!---after this all are include in javascript all are excluded by js filter -->
+<div class="modal" id="taskModal">
+
+    <div class="modal_box">
+
+        <div class="modal_header">
+            <h2>Add New Task</h2>
+
+            <button class="close_btn" id="closeModal">
+                ×
+            </button>
+        </div>
+
+
+        <div class="form_group">
+            <label>Task Title</label>
+            <input 
+                type="text" 
+                id="taskTitle"
+                placeholder="Enter task title"
+            >
+        </div>
+
+
+        <div class="form_group">
+            <label>Project</label>
+
+            <select id="taskProject">
+                <option>Product</option>
+                <option>Engineering</option>
+                <option>Research</option>
+                <option>Strategy</option>
+                <option>Legal</option>
+            </select>
+
+        </div>
+
+
+        <div class="form_group">
+            <label>Priority</label>
+
+            <select id="taskPriority">
+                <option>Urgent</option>
+                <option>High</option>
+                <option>Medium</option>
+            </select>
+
+        </div>
+
+
+        <div class="form_group">
+            <label>Due Date</label>
+
+            <input 
+                type="date" 
+                id="taskDate"
+            >
+
+        </div>
+
+
+        <div class="modal_buttons">
+
+            <button class="cancel_btn" id="cancelModal">
+                Cancel
+            </button>
+
+
+            <button class="create_btn" id="createTask">
+                Create Task
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/taskManager.js"></script>
+</body>
+</html>
