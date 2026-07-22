@@ -1,8 +1,6 @@
 console.log("taskManager is running");
 
-
 document.addEventListener("DOMContentLoaded", function () {
-
 
     const defaultTasks = [
 
@@ -17,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
             avatarColor: "purple"
         },
 
-
         {
             id: 2,
             title: "Fix checkout payment gateway timeout",
@@ -31,11 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     ];
 
-
-
     let tasks = JSON.parse(localStorage.getItem("tasks")) || defaultTasks;
-
-
 
     // HTML elements
 
@@ -57,8 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const searchInput = document.getElementById("searchInput");
 
-
-
     // Dashboard counters
 
     const totalTasks = document.getElementById("totalTasks");
@@ -69,10 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const urgentTasks = document.getElementById("urgentTasks");
 
-
-
-
-
     function saveTasks(){
 
         localStorage.setItem(
@@ -82,46 +69,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
-
-
-
-
     function updateDashboard(){
 
-
         totalTasks.textContent = tasks.length;
-
-
 
         const completed = tasks.filter(task => 
             task.completed === true
         ).length;
 
-
         doneTasks.textContent = completed;
-
-
-
 
         const inProgress = tasks.filter(task =>
             task.completed === false
         ).length;
 
-
         progressTasks.textContent = inProgress;
-
-
-
 
         const urgent = tasks.filter(task =>
             task.priority === "Urgent"
         ).length;
 
-
         urgentTasks.textContent = urgent;
-
-
     }
 
 
@@ -134,42 +102,28 @@ document.addEventListener("DOMContentLoaded", function () {
         task.completed === true
     ).length;
 
-
     let percentage = 0;
-
 
     if(total > 0){
         percentage = (completed / total) * 100;
     }
 
-
     progressBar.style.width = percentage + "%";
-
 
     progressText.textContent =
     `${completed}/${total} tasks`;
 
 }
 
-
-
-
+    
     function renderTasks(){
 
-
         taskContainer.innerHTML = "";
-
-
 
         const searchValue =
         searchInput.value.toLowerCase();
 
-
-
-
         const filteredTasks = tasks.filter(task => {
-
-
 
             return (
 
@@ -177,15 +131,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 .toLowerCase()
                 .includes(searchValue)
 
-
-
                 ||
 
                 task.priority
                 .toLowerCase()
                 .includes(searchValue)
-
-
 
                 ||
 
@@ -198,54 +148,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
             );
 
-
         });
 
-
-
-
-
-
-
         filteredTasks.forEach(task => {
-
-
 
             const taskElement =
             document.createElement("div");
 
-
-
             taskElement.classList.add("task");
-
-
-
-
-
-
 
             taskElement.innerHTML = `
 
-
             <div class="left">
-
 
                 <input 
                     type="checkbox"
                     ${task.completed ? "checked" : ""}
                 >
-
-
-
+                
                 <div class="info">
-
 
                     <h4>${task.title}</h4>
 
-
-
                     <div class="tags">
-
 
                         ${task.tags.map(tag =>
 
@@ -253,26 +178,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         ).join("")}
 
-
-
                     </div>
 
-
-
                 </div>
-
-
+                
             </div>
 
-
-
-
-
-
-
-
             <div class="right">
-
 
                 <span class="priority ${task.priority.toLowerCase()}">
 
@@ -280,16 +192,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 </span>
 
-
-
                 <span class="date">
 
                     ${task.dueDate}
 
                 </span>
-
-
-
 
                 <div class="avatar ${task.avatarColor}">
 
@@ -297,169 +204,82 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 </div>
 
-
-
-
-
                 <button class="deleteBtn">
 
                     🗑
 
                 </button>
-
-
-
+                
             </div>
-
-
-
+            
             `;
-
-
-
-
-
-
-
-
+            
             // Complete checkbox
-
 
             const checkbox =
             taskElement.querySelector("input");
 
-
-
             checkbox.addEventListener("change", function(){
-
 
                 task.completed = checkbox.checked;
 
-
                 saveTasks();
-
 
                 renderTasks();
 
-
             });
-
-
-
-
-
-
-
+            
             // Delete button
-
 
             const deleteBtn =
             taskElement.querySelector(".deleteBtn");
 
-
-
             deleteBtn.addEventListener("click", function(){
-
-
 
                 const confirmDelete =
                 confirm("Delete this task?");
 
-
-
                 if(confirmDelete){
-
 
                     tasks =
                     tasks.filter(item =>
                         item.id !== task.id
                     );
 
-
-
                     saveTasks();
-
-
-
+                    
                     renderTasks();
-
 
                 }
 
-
-
             });
-
-
-
-
-
-
-
 
             taskContainer.appendChild(taskElement);
 
-
-
         });
-
-
-
-
 
         updateDashboard();
         updateProgress();
-
-
-
+        
     }
 
-    
-
-
-
-
-
-
-
-
-
-
     // Open modal
-
-
+    
     addTaskBtn.addEventListener("click", function(){
-
 
         taskModal.style.display = "flex";
 
-
     });
-
-
-
-
-
-
-
-
 
     // Create new task
 
-
     createTaskBtn.addEventListener("click", function(){
-
-
 
         const title =
         document.getElementById("taskTitle").value;
 
-
-
         const project =
         document.getElementById("taskProject").value;
-
-
 
         const priority =
         document.getElementById("taskPriority").value;
@@ -469,147 +289,70 @@ document.addEventListener("DOMContentLoaded", function () {
         const date =
         document.getElementById("taskDate").value;
 
-
-
-
-
-
-
         if(title === "" || date === ""){
-
 
             alert("Please enter title and due date");
 
-
             return;
-
 
         }
 
-
-
-
-
-
-
-
         const newTask = {
-
 
             id: Date.now(),
 
-
             title:title,
-
 
             tags:[project],
 
-
             priority:priority,
-
 
             dueDate:new Date(date)
             .toDateString(),
 
-
             completed:false,
-
 
             avatar:"ME",
 
-
             avatarColor:"purple"
-
 
         };
 
-
-
-
-
-
         tasks.push(newTask);
-
-
 
         saveTasks();
 
-
-
         renderTasks();
 
-
-
-
         taskModal.style.display = "none";
-
-
-
 
         document.getElementById("taskTitle").value = "";
 
-
         document.getElementById("taskDate").value = "";
 
-
-
     });
-
-
-
-
-
-
-
-
 
     // Close modal
 
-
     closeModal.addEventListener("click", function(){
-
 
         taskModal.style.display = "none";
 
-
     });
-
-
-
 
     cancelModal.addEventListener("click", function(){
 
-
         taskModal.style.display = "none";
 
-
     });
-
-
-
-
-
-
-
-
-
+    
     // Search
-
 
     searchInput.addEventListener("input", function(){
 
-
         renderTasks();
 
-
     });
-
-
-
-
-
-
-
 
     renderTasks();
 
